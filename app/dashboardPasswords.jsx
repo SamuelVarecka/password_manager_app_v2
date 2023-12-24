@@ -5,7 +5,7 @@ export const DashboardPasswords = () => {
   return (
     <View>
       <Text>
-        Hesla budu tu.
+        Hesla budu tu.(coskoro)
       </Text>
     </View>
   )
