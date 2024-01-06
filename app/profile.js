@@ -1,11 +1,10 @@
 import {SafeAreaView, ScrollView, Text, View} from "react-native";
-import DashboardPasswords from "./dashboardPasswords"
 import {COLORS, SIZES} from "../constants";
 import {Stack} from "expo-router";
 
 
 
-export const Dashboard = () =>{
+export const Profile = () =>{
     return (
       <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
         <Stack.Screen
@@ -15,11 +14,13 @@ export const Dashboard = () =>{
           headerShown: false
           }}>
         </Stack.Screen>
-        <View style={{ flex: 1, justifyContent: 'center' }}>
-          <DashboardPasswords/>
-        </View>
+        <ScrollView>
+          <View style={{ flex: 1, padding: SIZES.medium, justifyContent: 'center' }}>
+            <Text>Uzivatelsky Profil</Text>
+          </View>
+        </ScrollView>
     </SafeAreaView>
     );
 }
 
-export default Dashboard;
+export default Profile;

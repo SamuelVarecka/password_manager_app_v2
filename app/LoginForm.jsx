@@ -36,10 +36,6 @@ const LoginForm = () => {
             });
         }
 
-        const navigateToRegister = () => {
-          <Link href="/about">About</Link>
-  };
-
 
   return (
     <View style={styles.container}>
@@ -62,11 +58,11 @@ const LoginForm = () => {
       <TouchableOpacity onPress={handleLogin} style={styles.button}>
         <Text style={styles.buttonText}>Prihlásiť</Text>
       </TouchableOpacity>
-      <Pressable onPress={() => router.replace("/register")}>
-        <Text>
-          Nemam ucet
+      <TouchableOpacity onPress={() => router.push("/register")}>
+        <Text style={styles.switchText}>
+          Nemám učet!
         </Text>
-      </Pressable>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -77,6 +73,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     padding: 20,
     backgroundColor: COLORS.lightWhite,
+  },
+  switchText: {
+    color: '#5A67D8',
+    marginTop: 15,
+    textAlign: 'center',
   },
   title: {
     fontSize: 28,
