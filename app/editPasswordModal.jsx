@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
 
-const EditPasswordModal = ({ isVisible, onClose, onSubmit }) => {
-  const [passwordId, setPasswordId] = useState('')
+const EditPasswordModal = ({ isVisible, onClose, onSubmit, passwordId }) => {
   const [newUsername, setNewUsername] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
@@ -15,7 +14,6 @@ const EditPasswordModal = ({ isVisible, onClose, onSubmit }) => {
   // Resetting the state is good here
   setNewUsername('');
   setNewPassword('');
-  setPasswordId('');
   onClose();
 };
 

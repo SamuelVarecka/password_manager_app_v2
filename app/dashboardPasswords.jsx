@@ -25,7 +25,7 @@ const DashboardPasswords = () => {
   const [selectedPassword, setSelectedPassword] = useState(null);
 
   useEffect(() => {
-    fetchPasswords();
+    fetchPasswords()
   }, []);
 
   const fetchPasswords = async () => {
@@ -87,12 +87,12 @@ const DashboardPasswords = () => {
   }
 };
 
-  const openEditModal = (password) => {
-    setSelectedPassword(password); // Set the selected password
+  const openEditModal = (passwordId) => {
+    setSelectedPassword(passwordId); // Set the selected password
     setIsEditModalVisible(true); // Open the modal
   };
 
-  const handleEditPassword = async (passwordData) => {
+  const handleEditPassword = async (item) => {
     if (!selectedPassword) return;
     try {
       const jwtToken = await AsyncStorage.getItem('access_token');
@@ -101,13 +101,12 @@ const DashboardPasswords = () => {
         method: "post",
         url: "https://hesla.sk/api/change_password",
         headers: {
-          'Authorization': `Bearer ${jwtToken}`,
-          'Content-Type': 'application/json'
+          'Authorization': `Bearer ${jwtToken}`
         },
         data: {
-          password_id: parseInt(passwordData.password_id, 10),
-          new_username: passwordData.new_username, // Send null if no new username
-          new_password: passwordData.new_password, // Send null if no new password
+          password_id: selectedPassword,
+          new_username: item.new_username, // Send null if no new username
+          new_password: item.new_password, // Send null if no new password
         }
       });
       if (responce.data.message === 'Password changed successfully') {
@@ -237,7 +236,7 @@ const DashboardPasswords = () => {
         isVisible={isEditModalVisible}
         onClose={() => { setIsEditModalVisible(false); setSelectedPassword(null); }}
         onSubmit={handleEditPassword}
-        passwordId={selectedPassword?.id} // Pass the selected password ID
+        passwordId={selectedPassword}
       />
 
       <ScrollView style={styles.passwordList}>
@@ -255,7 +254,7 @@ const DashboardPasswords = () => {
             <View style={styles.buttonContainer}>
               <TouchableOpacity
               style={styles.editButton}
-              onPress={() => openEditModal(item)} // Open edit modal with the current item's data
+              onPress={() => openEditModal(item.password_id)} // Open edit modal with the current item's data
                 >
               <Text style={styles.editButtonText}>Edit</Text>
             </TouchableOpacity>
