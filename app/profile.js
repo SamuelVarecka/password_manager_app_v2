@@ -1,7 +1,7 @@
 import {SafeAreaView, ScrollView, Text, View} from "react-native";
 import {COLORS, SIZES} from "../constants";
 import {Stack} from "expo-router";
-
+import ProfileDash from "./profileDash";
 
 
 export const Profile = () =>{
@@ -16,7 +16,7 @@ export const Profile = () =>{
         </Stack.Screen>
         <ScrollView>
           <View style={{ flex: 1, padding: SIZES.medium, justifyContent: 'center' }}>
-            <Text>Uzivatelsky Profil</Text>
+            <ProfileDash/>
           </View>
         </ScrollView>
     </SafeAreaView>
