@@ -18,7 +18,7 @@ const RegisterForm = () => {
     .then(function (response) {
       // Check if registration was successful
       if (response.data.message === 'User registered successfully') {
-        Alert.alert('Success', 'Successfully Registered', [
+        Alert.alert('Success', 'Registrácia úspešná', [
           { text: "OK", onPress: () => router.replace('/') }
         ]);
       }
@@ -38,20 +38,20 @@ const RegisterForm = () => {
       <TextInput
         value={username}
         onChangeText={setUsername}
-        placeholder="Enter Username"
+        placeholder="Používaťelské meno"
         style={styles.input}
         placeholderTextColor="#666"
       />
       <TextInput
         value={password}
         onChangeText={setPassword}
-        placeholder="Enter Password"
+        placeholder="Použivaťeľké heslo"
         secureTextEntry
         style={styles.input}
         placeholderTextColor="#666"
       />
       <TouchableOpacity onPress={handleRegister} style={styles.button}>
-        <Text style={styles.buttonText}>Register</Text>
+        <Text style={styles.buttonText}>Reistrovať</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => router.replace("/")}>
         <Text style={styles.switchText}>

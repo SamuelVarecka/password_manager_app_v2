@@ -1,7 +1,8 @@
-import {SafeAreaView, ScrollView, Text, View} from "react-native";
+import {Platform, SafeAreaView, ScrollView, Text, View} from "react-native";
 import DashboardPasswords from "./dashboardPasswords"
 import {COLORS, SIZES} from "../constants";
 import {Stack} from "expo-router";
+import {StatusBar} from "native-base";
 
 
 
@@ -15,7 +16,9 @@ export const Dashboard = () =>{
           headerShown: false
           }}>
         </Stack.Screen>
+        <StatusBar barStyle="dark-content" backgroundColor={COLORS.lightWhite} />
         <View style={{ flex: 1, justifyContent: 'center' }}>
+
           <DashboardPasswords/>
         </View>
     </SafeAreaView>

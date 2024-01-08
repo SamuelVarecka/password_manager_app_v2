@@ -7,7 +7,8 @@ import {
   ScrollView,
   TouchableOpacity,
   Clipboard,
-  Modal,} from 'react-native';
+  Modal, SafeAreaView, Platform,
+} from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {router} from "expo-router";
@@ -440,6 +441,7 @@ buttonGroup: {
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5,
+  marginTop: Platform.OS === 'android' ? 30 : 0,
   },
   button: {
     flex: 0,

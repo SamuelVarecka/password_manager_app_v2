@@ -1,5 +1,15 @@
 import React, { useState } from 'react';
-import { Modal, View, Text, TextInput, Button, StyleSheet, TouchableOpacity } from 'react-native';
+import {
+  Modal,
+  View,
+  Text,
+  TextInput,
+  Button,
+  StyleSheet,
+  TouchableOpacity,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
 
 const AddPasswordModal = ({ isVisible, onClose, onSubmit }) => {
   const [newPlatform, setNewPlatform] = useState('');
@@ -12,6 +22,7 @@ const AddPasswordModal = ({ isVisible, onClose, onSubmit }) => {
       username: newUsername,
       password: newPassword,
     });
+    // Clear the inputs
     setNewPlatform('');
     setNewUsername('');
     setNewPassword('');
@@ -25,25 +36,29 @@ const AddPasswordModal = ({ isVisible, onClose, onSubmit }) => {
       visible={isVisible}
       onRequestClose={onClose}
     >
-      <View style={styles.centeredView}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20} // Adjust the value as needed for Android
+        style={styles.centeredView}
+      >
         <View style={styles.modalView}>
           <TextInput
-            placeholderTextColor={styles.input.placeholderTextColor}
             placeholder="Platforma"
+            placeholderTextColor="#888"
             value={newPlatform}
             onChangeText={setNewPlatform}
             style={styles.input}
           />
           <TextInput
-            placeholderTextColor={styles.input.placeholderTextColor}
             placeholder="Meno"
+            placeholderTextColor="#888"
             value={newUsername}
             onChangeText={setNewUsername}
             style={styles.input}
           />
           <TextInput
-            placeholderTextColor={styles.input.placeholderTextColor}
             placeholder="Heslo"
+            placeholderTextColor="#888"
             value={newPassword}
             onChangeText={setNewPassword}
             secureTextEntry
@@ -54,7 +69,7 @@ const AddPasswordModal = ({ isVisible, onClose, onSubmit }) => {
             <Text style={styles.closeButtonText}>Close</Text>
           </TouchableOpacity>
         </View>
-      </View>
+      </KeyboardAvoidingView>
     </Modal>
   );
 };
@@ -71,31 +86,26 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
-    width: '90%', // Set the width of the modal
-    height: '50%', // Set the height of the modal
+    width: '90%',
+    height: '50%',
     alignItems: 'center',
     shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
+    shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
-    justifyContent: 'center', // Center the content vertically
   },
   input: {
-    width: '100%', // Full width of the modal
-    marginBottom: 15, // Space at the bottom
-    paddingHorizontal: 10, // Horizontal padding
-    paddingVertical: 8, // Vertical padding
-    borderWidth: 1, // Width of the border
-    borderColor: '#ddd', // Color of the border
-    borderRadius: 6, // Rounded corners
-    color: 'black', // Text color
-    placeholderTextColor: '#888', // A lighter shade for placeholder text
-    fontSize: 16, // Size of the text
-    backgroundColor: 'white', // Background color of the input
+    width: '100%',
+    marginBottom: 15,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+    borderWidth: 1,
+    borderColor: '#ddd',
+    borderRadius: 6,
+    color: 'black',
+    fontSize: 16,
+    backgroundColor: 'white',
   },
   closeButton: {
     backgroundColor: '#FF414D',
