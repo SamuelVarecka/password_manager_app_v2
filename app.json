@@ -9,6 +9,7 @@
     ],
     "name": "password_manager_app_v2",
     "slug": "password_manager_app_v2",
+    "version": "1.0.1",
     "extra": {
       "router": {
         "origin": false
@@ -18,7 +19,8 @@
       }
     },
     "android": {
-      "package": "com.samuelvarecka.password_manager_app_v2"
+      "package": "com.samuelvarecka.password_manager_app_v2",
+      "versionCode": 2
     }
   }
 }
