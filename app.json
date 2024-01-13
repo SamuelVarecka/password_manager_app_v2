@@ -7,9 +7,9 @@
     "plugins": [
       "expo-router"
     ],
-    "name": "password_manager_app_v2",
+    "name": "Manazer hesiel",
     "slug": "password_manager_app_v2",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "extra": {
       "router": {
         "origin": false
@@ -20,7 +20,7 @@
     },
     "android": {
       "package": "com.samuelvarecka.password_manager_app_v2",
-      "versionCode": 2
+      "versionCode": 3
     }
   }
 }

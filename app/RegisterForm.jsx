@@ -51,7 +51,7 @@ const RegisterForm = () => {
         placeholderTextColor="#666"
       />
       <TouchableOpacity onPress={handleRegister} style={styles.button}>
-        <Text style={styles.buttonText}>Reistrovať</Text>
+        <Text style={styles.buttonText}>Registrovať</Text>
       </TouchableOpacity>
       <TouchableOpacity onPress={() => router.replace("/")}>
         <Text style={styles.switchText}>
