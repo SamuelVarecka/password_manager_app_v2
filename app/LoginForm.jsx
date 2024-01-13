@@ -39,7 +39,7 @@ const LoginForm = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Vítajte!</Text>
+      <Text style={styles.title}>Vitajte!</Text>
       <TextInput
         value={username}
         onChangeText={setUsername}
