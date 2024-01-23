@@ -299,7 +299,7 @@ const DashboardPasswords = () => {
         ))}
       </ScrollView>
 
-      <View style={styles.logoutButtonContainer}>
+      <View>
         <TouchableOpacity style={styles.logoutButton} onPress={logout}>
           <Text style={styles.logoutButtonText}>Logout</Text>
         </TouchableOpacity>
@@ -472,14 +472,16 @@ buttonGroup: {
     fontWeight: '500',
   },
   logoutButton: {
-    backgroundColor: '#FF414D', // A color that signifies action like logout
-    padding: 13,
-    borderRadius: 10,
-    alignItems: 'center',
-    marginHorizontal: 15,
-    marginTop: 0,
-    marginBottom: 5,
-  },
+    position: 'absolute', // Position the logout button absolutely
+  bottom: 5, // Place it 5px from the bottom of the screen
+  left: 20, // 15px from the left
+  right: 20, // 15px from the right
+  backgroundColor: '#FF414D', // The background color
+  padding: 13,
+  borderRadius: 10,
+  alignItems: 'center',
+  justifyContent: 'center', // Center the text vertically and horizontally
+},
   logoutButtonText: {
     color: 'white',
     fontSize: 18,

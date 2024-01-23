@@ -38,14 +38,14 @@ const RegisterForm = () => {
       <TextInput
         value={username}
         onChangeText={setUsername}
-        placeholder="Používaťelské meno"
+        placeholder="Používatelské meno"
         style={styles.input}
         placeholderTextColor="#666"
       />
       <TextInput
         value={password}
         onChangeText={setPassword}
-        placeholder="Použivaťeľké heslo"
+        placeholder="Používatelské heslo"
         secureTextEntry
         style={styles.input}
         placeholderTextColor="#666"
