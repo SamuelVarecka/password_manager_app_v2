@@ -1,6 +1,6 @@
 # Manažér Hesiel
 
-![version](https://img.shields.io/badge/version-1.0.0-blue)
+![version](https://img.shields.io/badge/version-1.0.4-blue)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
 
 Welcome to Manažér Hesiel! It's a modern and resourceful password manager application built with expo and react-native!
