@@ -54,6 +54,9 @@ To get the project up and running, execute the following commands in the termina
 ### Go into the repository
 `cd password_manager_app_v2`
 
+### Install all dependencies
+`npm install`
+
 ### Run the app
 `npm run start`
 
