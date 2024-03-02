@@ -1,10 +1,10 @@
 import React from 'react';
 import {View, Text, ScrollView, SafeAreaView} from 'react-native';
-import {COLORS, SIZES} from "../constants";
-import RegisterForm from "./RegisterForm";
-import {Stack} from "expo-router"; // Adjust the import path as needed
+import LoginForm from './LoginForm';
+import {COLORS, SIZES} from "../../constants";
+import { Stack } from "expo-router"; // Adjust the import path as needed
 
-export const Register = () => {
+export const LoginScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
       <Stack.Screen
@@ -13,14 +13,14 @@ export const Register = () => {
           headerShadowVisible: false,
           headerTitle: ""
           }}>
-      </Stack.Screen>
+        </Stack.Screen>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ flex: 1, padding: SIZES.medium, justifyContent: 'center' }}>
-          <RegisterForm/>
+          <LoginForm/>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default Register;
+export default LoginScreen;

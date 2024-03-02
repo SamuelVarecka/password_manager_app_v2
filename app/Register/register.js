@@ -1,28 +1,26 @@
-import {SafeAreaView, ScrollView, View} from "react-native";
+import React from 'react';
+import {SafeAreaView, ScrollView, View} from 'react-native';
+import {COLORS, SIZES} from "../../constants";
+import RegisterForm from "./RegisterForm";
 import {Stack} from "expo-router";
-import {COLORS} from "../constants";
-import HomePage from "./homepage";
 
-
-const Home = () => {
+export const Register = () => {
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.lightWhite }}>
       <Stack.Screen
-        options={{
+      options={{
           headerStyle: {backgroundColor: COLORS.lightWhite},
           headerShadowVisible: false,
           headerTitle: ""
-          }}
-      >
-
+          }}>
       </Stack.Screen>
       <ScrollView showsVerticalScrollIndicator={false}>
-        <View style={{ flex: 1, justifyContent: 'center' }}>
-          <HomePage/>
+        <View style={{ flex: 1, padding: SIZES.medium, justifyContent: 'center' }}>
+          <RegisterForm/>
         </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
-export default Home;
+export default Register;

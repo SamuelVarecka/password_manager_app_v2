@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Pressable} from 'react-native';
 import axios from 'axios';
-import {COLORS} from "../constants";
+import {COLORS} from "../../constants";
 import {Link, useRouter} from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
@@ -25,6 +25,9 @@ const LoginForm = () => {
                     // Redirect to the dashboard page
                   router.replace('/dashboard');
                 }
+                else if (response.data.message === 'Login unsuccessful'){
+                  Alert.alert('Nesprávne meno alebo heslo');
+                }
                 else {
                     alert('Login Failed!' + '\n' + 'Please try again.')
 
@@ -39,7 +42,7 @@ const LoginForm = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Vitajte!</Text>
+      <Text style={styles.title}>Vitajte späť!</Text>
       <TextInput
         value={username}
         onChangeText={setUsername}
@@ -56,9 +59,9 @@ const LoginForm = () => {
         placeholderTextColor="#666"
       />
       <TouchableOpacity onPress={handleLogin} style={styles.button}>
-        <Text style={styles.buttonText}>Prihlásiť</Text>
+        <Text style={styles.buttonText}>Prihlásiť sa</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => router.push("/register")}>
+      <TouchableOpacity onPress={() => router.push("/Register/register")}>
         <Text style={styles.switchText}>
           Nemám učet!
         </Text>
@@ -96,7 +99,7 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
   },
   button: {
-    backgroundColor: '#5A67D8',
+    backgroundColor: '#007BFF',
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',

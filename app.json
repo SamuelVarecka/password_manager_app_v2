@@ -9,7 +9,7 @@
     ],
     "name": "Manazer hesiel",
     "slug": "password_manager_app_v2",
-    "version": "1.0.3",
+    "version": "1.0.4",
     "extra": {
       "router": {
         "origin": false

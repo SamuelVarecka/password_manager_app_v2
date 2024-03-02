@@ -1,9 +1,8 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import React, {useState} from 'react';
+import {Alert, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import axios from 'axios';
-import { COLORS } from "../constants";
-import { useRouter } from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import {COLORS} from "../../constants";
+import {useRouter} from "expo-router";
 
 const RegisterForm = () => {
   const [username, setUsername] = useState('');
@@ -18,9 +17,12 @@ const RegisterForm = () => {
     .then(function (response) {
       // Check if registration was successful
       if (response.data.message === 'User registered successfully') {
-        Alert.alert('Success', 'Registrácia úspešná', [
-          { text: "OK", onPress: () => router.replace('/') }
+        Alert.alert('Super!', 'Registrácia prebehla úspešne', [
+          { text: "OK", onPress: () => router.replace('/Login/LoginScreen') }
         ]);
+      }
+      else if (response.data.message === 'Username already exists. Please try again.'){
+        Alert.alert('Registrácia zlyhala', 'Použivaťelské meno je už obsadené');
       }
       else {
         Alert.alert('Registration Failed', 'Please try again.');
@@ -34,7 +36,7 @@ const RegisterForm = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Register</Text>
+      <Text style={styles.title}>Registrácia do Manažéru Hesiel</Text>
       <TextInput
         value={username}
         onChangeText={setUsername}
@@ -51,9 +53,9 @@ const RegisterForm = () => {
         placeholderTextColor="#666"
       />
       <TouchableOpacity onPress={handleRegister} style={styles.button}>
-        <Text style={styles.buttonText}>Registrovať</Text>
+        <Text style={styles.buttonText}>Zaregistrovať sa</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={() => router.replace("/")}>
+      <TouchableOpacity onPress={() => router.replace("/Login/LoginScreen")}>
         <Text style={styles.switchText}>
           Už máte účet?
         </Text>
@@ -86,7 +88,7 @@ const styles = StyleSheet.create({
     borderColor: '#ddd',
   },
   button: {
-    backgroundColor: '#5A67D8',
+    backgroundColor: '#0056B3',
     padding: 15,
     borderRadius: 8,
     alignItems: 'center',

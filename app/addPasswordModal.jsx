@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {
+  Button,
+  KeyboardAvoidingView,
   Modal,
-  View,
+  Platform,
+  StyleSheet,
   Text,
   TextInput,
-  Button,
-  StyleSheet,
   TouchableOpacity,
-  KeyboardAvoidingView,
-  Platform,
+  View,
 } from 'react-native';
 
 const AddPasswordModal = ({ isVisible, onClose, onSubmit }) => {
@@ -38,7 +38,7 @@ const AddPasswordModal = ({ isVisible, onClose, onSubmit }) => {
     >
       <KeyboardAvoidingView
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20} // Adjust the value as needed for Android
+        keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
         style={styles.centeredView}
       >
         <View style={styles.modalView}>
@@ -79,10 +79,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 22,
   },
   modalView: {
-    margin: 20,
+    margin: 30,
     backgroundColor: 'white',
     borderRadius: 20,
     padding: 35,
@@ -94,6 +93,7 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+    justifyContent: 'center',
   },
   input: {
     width: '100%',
@@ -109,9 +109,9 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     backgroundColor: '#FF414D',
-    marginTop: 10,
     padding: 10,
     borderRadius: 6,
+    marginBottom: 10
   },
   closeButtonText: {
     color: 'white',

@@ -1,13 +1,15 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import {
-  View,
-  Text,
-  Button,
-  StyleSheet,
-  ScrollView,
-  TouchableOpacity,
+  Alert,
   Clipboard,
-  Modal, SafeAreaView, Platform,
+  Platform,
+  RefreshControl,
+  ScrollView,
+  StyleSheet,
+  Text,
+  ToastAndroid,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -15,8 +17,6 @@ import {router} from "expo-router";
 import {COLORS} from "../constants";
 import AddPasswordModal from "./addPasswordModal";
 import EditPasswordModal from "./editPasswordModal";
-import { RefreshControl } from 'react-native';
-
 
 
 const DashboardPasswords = () => {
@@ -29,46 +29,36 @@ const DashboardPasswords = () => {
   const [refreshing, setRefreshing] = useState(false);
 
   useEffect(() => {
-    fetchPasswords()
+    fetchPasswords();
+  }, [fetchPasswords]);
+
+  const fetchPasswords = useCallback(async () => {
+    try {
+      const jwtToken = await AsyncStorage.getItem('access_token');
+      const username = await AsyncStorage.getItem('username');
+      const response = await axios.post('https://hesla.sk/api/view_passwords', { username }, {
+        headers: { 'Authorization': `Bearer ${jwtToken}` }
+      });
+      setPasswords(Array.isArray(response.data.passwords) ? response.data.passwords : []);
+    } catch (error) {
+      console.error('Error fetching passwords:', error);
+      setPasswords([]);
+    }
   }, []);
 
-  const fetchPasswords = async () => {
-    try {
-        const jwtToken = await AsyncStorage.getItem('access_token');
-        const username = await AsyncStorage.getItem('username');
-
-        // Make an API request to fetch passwords from the server
-        const response = await axios.post('https://hesla.sk/api/view_passwords', {
-            username: username // Use the username stored in AsyncStorage
-        }, {
-            headers: {
-                'Authorization': `Bearer ${jwtToken}`
-            }
-        });
-
-        const data = response.data;
-        // If passwords are received or if passwords is not an array, update the state
-        // If passwords is undefined or not an array, set an empty array instead
-        setPasswords(Array.isArray(data.passwords) ? data.passwords : []);
-    } catch (error) {
-        console.error('Error fetching passwords:', error);
-        // Set an empty array if there is an error fetching passwords
-        setPasswords([]);
-    }
-};
   const onRefresh = useCallback(async () => {
-  setRefreshing(true);
-  try {
-    await fetchPasswords(); // Assuming fetchPasswords is an async function
-  } catch (error) {
-    console.error('Error refreshing data:', error);
-  }
-  setRefreshing(false);
-}, []);
+    setRefreshing(true);
+    await fetchPasswords();
+    setRefreshing(false);
+  }, [fetchPasswords]);
 
   const copyToClipboard = (password) => {
     Clipboard.setString(password);
-    alert('Password copied to clipboard!'); // Optional: Provide user feedback
+    if (Platform.OS === 'android') {
+      ToastAndroid.show('Heslo bolo skopírované!', ToastAndroid.SHORT);
+    } else {
+      Alert.alert('Heslo bolo skopírované!');
+    }
   };
 
   const addPassword = async () => {
@@ -82,7 +72,7 @@ const DashboardPasswords = () => {
     // Send a POST request to the server's API to add the password
     const response = await axios.post('https://hesla.sk/api/add_password', {
       platform: passwordData.platform,
-      login: passwordData.username, // Use the username from passwordData
+      login: passwordData.username,
       password: passwordData.password,
     }, {
       headers: {
@@ -92,7 +82,7 @@ const DashboardPasswords = () => {
 
     if (response.data.message === 'Password saved successfully') {
       // Password added successfully, update the displayed passwords
-      fetchPasswords(); // Assuming fetchPasswords is a function that updates the state with the latest passwords
+      await fetchPasswords();
     } else {
       console.error('Error adding password:', response.data.message);
     }
@@ -102,7 +92,7 @@ const DashboardPasswords = () => {
 };
 
   const openEditModal = (passwordId) => {
-    setSelectedPassword(passwordId); // Set the selected password
+    setSelectedPassword(passwordId);
     setIsEditModalVisible(true); // Open the modal
   };
 
@@ -119,8 +109,8 @@ const DashboardPasswords = () => {
         },
         data: {
           password_id: selectedPassword,
-          new_username: item.new_username, // Send null if no new username
-          new_password: item.new_password, // Send null if no new password
+          new_username: item.new_username,
+          new_password: item.new_password,
         }
       });
       if (responce.data.message === 'Password changed successfully') {
@@ -131,14 +121,10 @@ const DashboardPasswords = () => {
       }
     } catch (error) {
       if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
       console.error('Error changing password:', error.response.data);
     } else if (error.request) {
-      // The request was made but no response was received
       console.error('Error changing password: No response received:', error.request);
     } else {
-      // Something happened in setting up the request that triggered an Error
       console.error('Error changing password:', error.message);
     }
     }
@@ -157,26 +143,22 @@ const DashboardPasswords = () => {
         'Content-Type': 'application/json',
       },
       data: {
-        password_id: passwordId, // Ensure this matches the expected format
+        password_id: passwordId,
       }
     });
 
     if (response.data.message === 'Password successfully deleted') {
       // Password deleted successfully, update the displayed passwords
-      fetchPasswords(); // Ensure this function is defined and correctly updates the state
+      await fetchPasswords();
     } else {
       console.error('Error deleting password:', response.data.message);
     }
   } catch (error) {
     if (error.response) {
-      // The request was made and the server responded with a status code
-      // that falls out of the range of 2xx
       console.error('Error deleting password:', error.response.data);
     } else if (error.request) {
-      // The request was made but no response was received
       console.error('Error deleting password: No response received:', error.request);
     } else {
-      // Something happened in setting up the request that triggered an Error
       console.error('Error deleting password:', error.message);
     }
   }
@@ -186,7 +168,6 @@ const DashboardPasswords = () => {
 
   const logout = async () => {
     await AsyncStorage.removeItem('access_token');
-    // Navigate to login screen
     router.replace('/');
   };
 
@@ -231,26 +212,6 @@ const DashboardPasswords = () => {
         />
       </View>
 
-      {/* Password Form Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={isFormVisible}
-        onRequestClose={toggleFormVisibility}
-      >
-        <View style={styles.modalView}>
-          {/* Form Fields */}
-          {/* ... */
-
-
-          /* Submit Button */}
-          <Button title="Submit" onPress={addPassword} color="#5A67D8" />
-
-          {/* Close Form Button */}
-          <Button title="Close" onPress={toggleFormVisibility} color="#FF414D" />
-        </View>
-      </Modal>
-
       <EditPasswordModal
         isVisible={isEditModalVisible}
         onClose={() => { setIsEditModalVisible(false); setSelectedPassword(null); }}
@@ -264,23 +225,23 @@ const DashboardPasswords = () => {
       onRefresh={onRefresh}
     />
   } style={styles.passwordList}>
-        {passwords.map((item) => (
-          <View key={item.id} style={styles.passwordItem}>
+        {passwords.map((item, index) => (
+          <View key={item.id || `password-${index}`} style={styles.passwordItem}>
             <Text style={styles.itemText}>
-              Platform: {item.platform}
+              <Text style={{ fontWeight: 'bold' }}>Platform:</Text> {item.platform}
             </Text>
             <Text style={styles.itemText}>
-              Username: {item.username}
+              <Text style={{ fontWeight: 'bold' }}>Username:</Text> {item.username}
             </Text>
             <Text style={styles.itemText}>
-              Password: {arePasswordsVisible ? item.password : '••••••••'}
+              <Text style={{ fontWeight: 'bold' }}>Password:</Text> {arePasswordsVisible ? item.password : '••••••••'}
             </Text>
             <View style={styles.buttonContainer}>
               <TouchableOpacity
               style={styles.editButton}
               onPress={() => openEditModal(item.password_id)} // Open edit modal with the current item's data
                 >
-              <Text style={styles.editButtonText}>Edit</Text>
+              <Text style={styles.editButtonText}>Upraviť</Text>
             </TouchableOpacity>
             <TouchableOpacity
               style={styles.copyButton}
@@ -292,7 +253,7 @@ const DashboardPasswords = () => {
               style={styles.deleteButton}
               onPress={() => deletePass(item.password_id)}
             >
-              <Text style={styles.deleteButtonText}>Delete</Text>
+              <Text style={styles.deleteButtonText}>Vymazať</Text>
             </TouchableOpacity>
             </View>
           </View>
@@ -311,7 +272,7 @@ const DashboardPasswords = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: COLORS.lightWhite, // A neutral background color
+    backgroundColor: COLORS.lightWhite,
   },
   header: {
     fontSize: 26,
@@ -320,15 +281,15 @@ const styles = StyleSheet.create({
     paddingTop: 20,
     paddingBottom: 10,
     textAlign: 'center',
-    backgroundColor: '#FFF', // A light background for the header
+    backgroundColor: '#FFF',
     marginBottom: 20,
   },
   form: {
-    backgroundColor: '#FFF', // A light background for the form
+    backgroundColor: '#FFF',
     borderRadius: 10,
     padding: 15,
     margin: 15,
-    shadowColor: '#000', // Adding shadow for depth
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
@@ -351,8 +312,8 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: '#DDD', // A subtle border color
-    backgroundColor: '#FFF', // A white background for the input
+    borderColor: '#DDD',
+    backgroundColor: '#FFF',
     paddingHorizontal: 15,
     paddingVertical: 10,
     borderRadius: 8,
@@ -361,18 +322,19 @@ const styles = StyleSheet.create({
   },
   passwordList: {
     margin: 15,
+    marginBottom: 60
   },
   passwordItem: {
-    backgroundColor: '#FFF', // A white background for the items
+    backgroundColor: '#FFF',
     borderRadius: 8,
     padding: 10,
     // Increase margin to give space for the shadow
-    marginLeft: 10, // Adjust as necessary
-    marginRight: 10, // Adjust as necessary
+    marginLeft: 10,
+    marginRight: 10,
     // Define shadow properties for iOS
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 1 },
-    // Elevation for Android (will only have effect on Android devices)
+    // Elevation for Android
     elevation: 3,
     shadowOpacity: 0.1,
     shadowRadius: 3,
@@ -380,7 +342,7 @@ const styles = StyleSheet.create({
   },
   itemText: {
     fontSize: 16,
-    color: '#333', // Dark color for text for better readability
+    color: '#333',
   },
   buttonContainer: {
     flexDirection: 'row',
@@ -388,14 +350,14 @@ const styles = StyleSheet.create({
     marginTop: 10,
   },
   editButton: {
-  backgroundColor: '#007BFF', // Blue shade
+  backgroundColor: '#007BFF',
   paddingVertical: 10,
   paddingHorizontal: 10,
-  borderRadius: 15, // Rounded edges
+  borderRadius: 15,
   elevation: 2,
   justifyContent: 'center',
   alignItems: 'center',
-  width: 60,
+  width: 70,
   height: 40,
 },
 
@@ -405,14 +367,14 @@ const styles = StyleSheet.create({
   },
 
   deleteButton: {
-    backgroundColor: 'red',
+    backgroundColor: '#ed0c0c',
     paddingVertical: 10,
     paddingHorizontal: 10,
-    borderRadius: 15, // Rounded edges
+    borderRadius: 15,
     elevation: 2,
     justifyContent: 'center',
     alignItems: 'center',
-    width: 65,
+    width: 80,
     height: 40,
   },
 
@@ -421,15 +383,15 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   copyButton: {
-  backgroundColor: '#A0AEC0', // A neutral gray color
-  paddingVertical: 10, // Adjust size as needed
-  paddingHorizontal: 10, // Adjust size as needed
-  borderRadius: 15, // This will make it round if the button is 40x40
+  backgroundColor: '#828d9e',
+  paddingVertical: 10,
+  paddingHorizontal: 10,
+  borderRadius: 15,
   elevation: 2,
-  justifyContent: 'center', // Center the text vertically
-  alignItems: 'center', // Center the text horizontally
-  width: 125, // Width and height should be the same
-  height: 40, // Width and height should be the same
+  justifyContent: 'center',
+  alignItems: 'center',
+  width: 125,
+  height: 40,
 },
 
 copyButtonText: {
@@ -441,29 +403,29 @@ buttonGroup: {
     justifyContent: 'center',
     alignItems: 'center',
     padding: 5,
-  marginTop: Platform.OS === 'android' ? 30 : 0,
+  marginTop: Platform.OS === 'android' ? 40 : 5,
   },
   button: {
     flex: 0,
     paddingVertical: 8,
     paddingHorizontal: 16,
     marginHorizontal: 4,
-    borderRadius: 25,
+    borderRadius: 15,
     elevation: 3,
     margin: 2,
-    minWidth: 90,
+    minWidth: 100,
     height: 40,
     justifyContent: 'center',
     alignItems: 'center',
   },
   addPasswordButton: {
-    backgroundColor: '#4A90E2', // A soft blue color
+    backgroundColor: '#007BFF',
   },
   toggleButton: {
-    backgroundColor: '#D1D3D4', // A light gray color
+    backgroundColor: '#6c7482',
   },
   profileButton: {
-    backgroundColor: '#7B8D93', // A darker gray for contrast
+    backgroundColor: '#0056B3',
   },
   buttonText: {
     textAlign: 'center',
@@ -472,15 +434,15 @@ buttonGroup: {
     fontWeight: '500',
   },
   logoutButton: {
-    position: 'absolute', // Position the logout button absolutely
-  bottom: 5, // Place it 5px from the bottom of the screen
-  left: 20, // 15px from the left
-  right: 20, // 15px from the right
-  backgroundColor: '#FF414D', // The background color
+    position: 'absolute',
+  bottom: 5,
+  left: 22,
+  right: 22,
+  backgroundColor: '#FF414D',
   padding: 13,
-  borderRadius: 10,
+  borderRadius: 20,
   alignItems: 'center',
-  justifyContent: 'center', // Center the text vertically and horizontally
+  justifyContent: 'center',
 },
   logoutButtonText: {
     color: 'white',

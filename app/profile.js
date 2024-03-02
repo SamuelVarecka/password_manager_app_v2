@@ -1,4 +1,4 @@
-import {SafeAreaView, ScrollView, Text, View} from "react-native";
+import {SafeAreaView, ScrollView, View} from "react-native";
 import {COLORS, SIZES} from "../constants";
 import {Stack} from "expo-router";
 import ProfileDash from "./profileDash";

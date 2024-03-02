@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, Button, Alert, StyleSheet } from 'react-native';
+import {Alert, Button, Image, StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {router} from "expo-router";
@@ -26,12 +26,12 @@ const ProfileDash = ({ navigation }) => {
 
       if (response.data.message === 'Account deleted successfully') {
         await AsyncStorage.removeItem('access_token');
-        navigation.navigate('Login'); // Assuming 'Login' is the route name for your login screen
+        router.push("/")
       } else {
-        console.error('Error deleting account:', response.data.message);
+        Alert.alert('Vymazanie účtu zlyhalo');
       }
     } catch (error) {
-      console.error('Error:', error);
+      Alert.alert('Vymazanie účtu zlyhalo');
     }
   };
 
@@ -45,15 +45,13 @@ const ProfileDash = ({ navigation }) => {
       </View>
       <View style={styles.profileCard}>
         <Image
-          source={require('./profile_picture.jpeg')} // Replace with your local image
+          source={require('./profile_picture.jpeg')}
           style={styles.profilePic}
         />
         <Text style={styles.username}>Profil</Text>
-        <Button
-          title="Delete Account"
-          color="red"
-          onPress={handleDeleteAccount}
-        />
+        <TouchableOpacity style={styles.deleteAccountButton} onPress={handleDeleteAccount}>
+          <Text style={styles.deleteAccountButtonText}>Nenávratne vymazať účet a všetky uložené údaje</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -83,6 +81,29 @@ const styles = StyleSheet.create({
     borderRadius: 75,
     marginBottom: 20,
   },
+  deleteAccountButton: {
+  backgroundColor: '#fa2f20',
+  paddingVertical: 10,
+  paddingHorizontal: 20,
+  borderRadius: 5,
+  borderWidth: 1,
+  borderColor: 'darkred',
+  elevation: 3,
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  alignItems: 'center',
+  justifyContent: 'center',
+  marginTop: 20,
+},
+deleteAccountButtonText: {
+  color: 'white',
+  fontWeight: 'bold',
+  textAlign: 'center',
+  fontSize: 16,
+},
+
   username: {
     fontSize: 24,
     fontWeight: 'bold',
