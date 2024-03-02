@@ -1,4 +1,5 @@
 # Manažér Hesiel
+### iOS, Android and Apple Vision Pro APP
 
 ![version](https://img.shields.io/badge/version-1.0.4-blue)
 ![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
@@ -14,24 +15,21 @@ This project was developed using the following frameworks and packages:
 - Expo-linear-gradient: ^12.7.2
 - Expo-router: ^2.0.14
 - Native-Base: ^3.4.28
-- React-Navigation/Native: ^6.1.9
-- React-Navigation/Native-Stack: ^6.9.17
 - React-Navigation/Stack: ^6.3.20
 - React-Native-Async-Storage/Async-Storage: ^1.21.0
 - React-Native-Clipboard/Clipboard: ^1.13.2
 - React-Native-Dotenv: ^3.4.9
 - React-Native-Gesture-Handler: ~2.12.0
-- React-Native-Linear-Gradient: ^2.8.3
 - React-Native-Reanimated: ~3.3.0
-- Expo-font: ^11.6.0
-- Expo-constants: ~14.4.2 
-- Expo-splash-screen: ~0.20.4 
-- Expo-status-bar: ~1.6.0 
 - React-Native-Safe-Area-Context: ^4.6.3 
 - React-Native-Screens: ~3.22.0 
-- React-Native-Web: ~0.19.6 
-- React-Native-Webview: ^13.8.1
+- Expo-font: ^11.6.0
+- Expo-constants: ~14.4.2 
 - Expo-linking: ~5.0.2
+- Expo-status-bar: ~1.6.0 
+
+And the devDependencies include:
+- @babel/core: ^7.20.0
   
 And the devDependencies include:
 - @babel/core: ^7.20.0
