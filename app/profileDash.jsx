@@ -4,7 +4,7 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {router} from "expo-router";
 
-const ProfileDash = ({ navigation }) => {
+const ProfileDash = () => {
 
   const handleDeleteAccount = () => {
     Alert.alert(

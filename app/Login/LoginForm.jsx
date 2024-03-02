@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import {View, Text, TextInput, TouchableOpacity, StyleSheet, Alert, Pressable} from 'react-native';
+import React, {useState} from 'react';
+import {Alert, StyleSheet, Text, TextInput, TouchableOpacity, View} from 'react-native';
 import axios from 'axios';
 import {COLORS} from "../../constants";
-import {Link, useRouter} from "expo-router";
+import {useRouter} from "expo-router";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const LoginForm = () => {

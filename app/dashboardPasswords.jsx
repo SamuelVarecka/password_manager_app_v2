@@ -30,7 +30,7 @@ const DashboardPasswords = () => {
 
   useEffect(() => {
     fetchPasswords();
-  }, [fetchPasswords]);
+  }, );
 
   const fetchPasswords = useCallback(async () => {
     try {
