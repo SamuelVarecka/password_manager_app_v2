@@ -62,7 +62,8 @@ To get the project up and running, execute the following commands in the termina
 
 ## 📝 Documentation
 
-For detailed explanation on how things work, checkout [Expo Router Docs](https://docs.expo.dev/router/introduction/).
+For detailed explanation on how things work, checkout [Expo Router Docs](https://docs.expo.dev/router/introduction/) and 
+[React Native Docs](https://reactnative.dev/docs/getting-started)
 
 ## 🙌 Contributing 
 
