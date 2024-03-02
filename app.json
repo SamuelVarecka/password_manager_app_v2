@@ -20,7 +20,7 @@
     },
     "android": {
       "package": "com.samuelvarecka.password_manager_app_v2",
-      "versionCode": 4
+      "versionCode": 5
     }
   }
 }
