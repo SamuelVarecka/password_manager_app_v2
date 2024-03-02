@@ -41,16 +41,15 @@ const DashboardPasswords = () => {
       });
       setPasswords(Array.isArray(response.data.passwords) ? response.data.passwords : []);
     } catch (error) {
-      console.error('Error fetching passwords:', error);
-      setPasswords([]);
+      console.error('Error fetching passwords:', error)
     }
   }, []);
 
   const onRefresh = useCallback(async () => {
     setRefreshing(true);
-    await fetchPasswords();
+    fetchPasswords();
     setRefreshing(false);
-  }, [fetchPasswords]);
+  }, []);
 
   const copyToClipboard = (password) => {
     Clipboard.setString(password);
@@ -82,7 +81,7 @@ const DashboardPasswords = () => {
 
     if (response.data.message === 'Password saved successfully') {
       // Password added successfully, update the displayed passwords
-      await fetchPasswords();
+      fetchPasswords();
     } else {
       console.error('Error adding password:', response.data.message);
     }
@@ -115,7 +114,7 @@ const DashboardPasswords = () => {
       });
       if (responce.data.message === 'Password changed successfully') {
         setSelectedPassword(null);
-        await fetchPasswords()
+        fetchPasswords()
       } else {
         console.error('Error changing password:', response.data.message);
       }
@@ -149,7 +148,7 @@ const DashboardPasswords = () => {
 
     if (response.data.message === 'Password successfully deleted') {
       // Password deleted successfully, update the displayed passwords
-      await fetchPasswords();
+      fetchPasswords();
     } else {
       console.error('Error deleting password:', response.data.message);
     }
