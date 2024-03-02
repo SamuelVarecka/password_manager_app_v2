@@ -67,6 +67,9 @@ For detailed explanation on how things work, checkout [Expo Router Docs](https:/
 
 Contributions, issues, and feature requests are welcome. Feel free to check the [issues page](https://github.com/SamuelVarecka/password_manager_app_v2/issues) if you want to contribute.
 
+## Beta Testing
+You can became beta tester of our app on android [here](https://play.google.com/apps/testing/com.samuelvarecka.password_manager_app_v2)
+
 ## 🔐 License
 
 This app is licensed under the terms of the MIT license.
